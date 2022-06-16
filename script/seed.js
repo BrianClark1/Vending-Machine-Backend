@@ -1,6 +1,7 @@
 'use strict'
 
-const {db, models: {Product} } = require('../server/db')
+const {db, models: {Product} } = require('../server/db');
+const Bank = require('../server/db/models/Bank');
 
 /**
  * seed - this function clears the database, updates tables to
@@ -65,6 +66,19 @@ const products = [
 ];
 
 
+const coins = {
+  penny: 50,
+  nickel: 45,
+  dime: 40,
+  quarter: 35,
+  oneDollar: 30,
+  fiveDollar: 25,
+  tenDollar: 20,
+  twentyDollar: 15,
+  fiftyDollar: 10,
+  hundredDollar: 5
+};
+
 async function seed() {
   await db.sync({ force: true }) // clears db and matches models to tables
   console.log('db synced!')
@@ -75,6 +89,8 @@ async function seed() {
         return Product.create(product);
       })
     );
+  
+  await Bank.create(coins);
 
   console.log(`seeded successfully`)
 
