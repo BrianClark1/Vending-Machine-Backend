@@ -46,16 +46,16 @@ module.exports = router;
 // req.body = {
 //  item: "A29"
 //  coins: {
-//  pennies:  10
-//  nickels: 5
-//  dimes: 0
-//  quarter: 0
-//  oneDollar: 5
-//  fiveDollar: 0
-//  tenDollar: 0
-//  twentyDollar: 0
-//  fiftyDollar: 0
-//  hundredDollar: 0
+//  [{pennies:  10},
+//  {nickels: 5},
+//  {dimes: 0},
+//  {quarter: 0},
+//  {oneDollar: 5},
+//  {fiveDollar: 0},
+//  {tenDollar: 0},
+//  {twentyDollar: 0},
+//  {fiftyDollar: 0},
+//  {hundredDollar: 0}]
 //  }
 //}
 
@@ -65,9 +65,36 @@ module.exports = router;
 router.put("/", async (req, res, next) => {
   console.log('Yello')
   try {
-       let itemID = req.body.item
+    let itemID = req.body.item
+    let coins = req.body.coins;
     const product = await Product.findOne({ where: { codePosition: itemID } });
+
+    console.log('coinz', coins)
+
+   let totalprice = coins.reduce((accumulator, coin) => {
+     let price = parseInt(Object.values(coin)[0]);
+     console.log('PRICE', price)
+     accumulator += price;
+     return accumulator;
+   });
+    
+    console.log('TOTAL PRICE', totalprice)
+
+
+
     res.json(await product.decrement('quantity', { by: 1 }));
+
+    //Now to Deal with price 
+    //First Step Would be to sum everything inside of Req.body
+    //Compare to product.price
+    //If equal, perfect dispense
+    //If Overflow see overflow instructions about
+    //if less than throw error
+    //if no quantity throw error (see above )
+ 
+    
+    
+
 
     
     // if (product.quantity < 5) {
