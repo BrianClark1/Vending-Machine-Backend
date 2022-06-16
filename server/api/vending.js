@@ -59,15 +59,16 @@ module.exports = router;
 //  }
 //}
 
-
-
-//Get Request
-router.get("/", async (req, res, next) => {
+//Put Request to update the quantity of an item and ship it back out 
+//Utilize req.body since we're sending a conglomerate of data rather than 
+//just an id with req.params
+router.put("/item", async (req, res, next) => {
   try {
-    const products = await Product.findAll({
-    });
-    res.json(products);
-  } catch (err) {
-    next(err);
+       let itemID = req.body.item
+    const product = await Product.findOne({ where: { codePosition: itemID } });
+    res.json(await product.decrement('quantity', {by : 1}));
+  } catch (error) {
+    next(error);
   }
 });
+
