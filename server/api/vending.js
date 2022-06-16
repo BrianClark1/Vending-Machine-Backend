@@ -62,11 +62,17 @@ module.exports = router;
 //Put Request to update the quantity of an item and ship it back out 
 //Utilize req.body since we're sending a conglomerate of data rather than 
 //just an id with req.params
-router.put("/item", async (req, res, next) => {
+router.put("/", async (req, res, next) => {
+  console.log('Yello')
   try {
        let itemID = req.body.item
     const product = await Product.findOne({ where: { codePosition: itemID } });
-    res.json(await product.decrement('quantity', {by : 1}));
+    res.json(await product.decrement('quantity', { by: 1 }));
+
+    
+    // if (product.quantity < 5) {
+    //Notify Vendor Owner of low quantity 
+    // }
   } catch (error) {
     next(error);
   }
