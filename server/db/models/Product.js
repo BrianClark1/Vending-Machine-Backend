@@ -10,6 +10,14 @@ const Product = db.define("product", {
       notEmpty: true,
     },
   },
+  codePosition: {
+    type: Sequelize.STRING,
+    unique: true,
+    allowNull: false,
+    validate: {
+      notEmpty: true,
+    },
+  },
   quantity: {
     type: Sequelize.INTEGER,
     validate: {
