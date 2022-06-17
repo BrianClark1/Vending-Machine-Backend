@@ -97,6 +97,7 @@ router.put("/", async (req, res, next) => {
       return accumulator;
     }, 0);
 
+    console.log(totalprice);
     //Underflow, throw an error
     if (totalprice < product.price) {
       throw "Insufficient Funds";
@@ -107,7 +108,7 @@ router.put("/", async (req, res, next) => {
       //Calculate change
       let change = totalprice - product.price;
 
-      //Algorithm to determine optimal change combination, for ease of use, and maintanability of system
+      //Algorithm to determine optimal change combination, for ease of use, and maintainability of system
       const changeAlgorithm = (change) => {
         let bank = Bank.findByPk(1);
         //Run Analysis on Currency Quantity to determine best combination to make change
